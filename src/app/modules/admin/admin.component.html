@@ -1,72 +1,114 @@
 <!-- f7ed0919f37aa31252fd7aac5eeb86f535a75c9f -->
-<div class="container-fluid h-100">
-    <div class="row">
-        <div class="col-md-3">
-            <app-sidenav></app-sidenav>
-        </div>
-        <div class="col-md-9">
+<div class="row">
+    <div class="col-md-2">
+        <app-sidenav></app-sidenav>
+    </div>
+    <div class="col-md-10">
+        <div class="container-fluid h-100">
             <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-6 text-center">
+                <div class="col-md-12">
+                    <nb-card status="success">
+                        <nb-card-header>Drivers Around</nb-card-header>
+                        <div #mapContainer id="map"></div>
+                    </nb-card>
+                </div>
+                <div class="col-md-12 mb-2">
+                    <div class="row align-items-center">
+
+                        <div class="col-md-4 text-center">
                             <nb-card accent="success" class="p-5">
                                 <h1 class="display-4">
-                                    {{count.businesses}}
+                                    <!-- {{tripCountToday}} -->
+                                    56
                                 </h1>
-                                <p>Businesses</p>
+                                <p>Trips Today</p>
                             </nb-card>
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-4 text-center">
                             <nb-card accent="success" class="p-5">
                                 <h1 class="display-4">
-                                    {{count.users}}
+                                    {{moneyTendered}}
                                 </h1>
-                                <p>Users</p>
+                                <p>Cash Today</p>
+                            </nb-card>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <nb-card accent="success" class="p-5">
+                                <h1 class="display-4">
+                                    {{commission}}
+                                </h1>
+                                <p>Commission Today</p>
                             </nb-card>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <nb-card accent="success">
-                        <nb-card-header>Popular Categories</nb-card-header>
-                        <ngx-datatable class="bootstrap" columnMode="force" [rows]="categories"
-                            [columns]="categoryColumns">
-                        </ngx-datatable>
-                    </nb-card>
+                <div class="col-md-12 w-100 mt-2">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <nb-card status="success">
+                                <nb-card-header>
+                                    Booked Trips
+                                </nb-card-header>
+                                <nb-card-body>
+                                    <p>{{tripCountToday}} Bookins Today</p>
+                                    <p>{{tripsCount}} Bookins in Total</p>
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+
+                        <div class="col-md-4">
+                            <nb-card status="danger">
+                                <nb-card-header>
+                                    Cancelled Trips
+                                </nb-card-header>
+                                <nb-card-body>
+                                    <p>{{cancelledTripsTodayCount}} Cancelled Today</p>
+                                    <p>{{cancelledTripsCount}} Cancelled in Total</p>
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+
+                        <div class="col-md-4">
+                            <nb-card status="success">
+                                <nb-card-header>
+                                    Online Users
+                                </nb-card-header>
+                                <nb-card-body>
+                                    <p>2 Passengers Online</p>
+                                    <p>2 Drivers Online</p>
+                                </nb-card-body>
+                            </nb-card>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-100">
-                    <nb-card accent="success">
-                        <nb-card-header>Unapproved Businesses</nb-card-header>
-                        <table class="table table-striped" id="unsorted">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Address</th>
-                                    <th>Action</th>
-                                    <!-- <th colspan="2">Action</th> -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngIf="loading">
-                                    <td>Loading data...</td>
-                                    <td>Loading data...</td>
-                                    <td>Loading data...</td>
-                                    <td>Loading data...</td>
-                                </tr>
-                                <tr *ngFor="let business of businesses" [routerLink]="['./business', business._id]">
-                                    <td>{{business.name}}</td>
-                                    <td>{{business.phoneNumber}}</td>
-                                    <td>{{business.address}}</td>
-                                    <td><button nbButton status="primary" size="small" class="mr-2">View details</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </nb-card>
+                <div class="col-md-12">
+                    <div class="row m-0 justify-content-center text-center">
+                        <nb-card class="col m-1">
+                            <nb-card-body>
+                                <a [routerLink]="['/admin/trips']" routerLinkActive="router-link-active">All Trips</a>
+                            </nb-card-body>
+                        </nb-card>
+                        <nb-card class="col m-1">
+                            <nb-card-body>
+                                <a [routerLink]="['/admin/trips/paid']" routerLinkActive="router-link-active">Paid
+                                    Trips</a>
+                            </nb-card-body>
+                        </nb-card>
+                        <nb-card class="col m-1">
+                            <nb-card-body>
+                                <a [routerLink]="['/admin/trips/complete']"
+                                    routerLinkActive="router-link-active">Completed Trips</a>
+                            </nb-card-body>
+                        </nb-card>
+                        <nb-card class="col m-1">
+                            <nb-card-body>
+                                <a [routerLink]="['/admin/trips/complete']" routerLinkActive="router-link-active">Active
+                                    Trips</a>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

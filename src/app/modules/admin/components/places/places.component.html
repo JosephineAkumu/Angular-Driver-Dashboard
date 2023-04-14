@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-2">
+    <app-sidenav></app-sidenav>
+  </div>
+  <div class="col-md-10">
+    <div class="container">
+      <nb-card class="">
+        <nb-card-body>
+          <h6 class="display-4">Popular Places</h6>
+          <button nbButton status="success" size="tiny" class="float-right" (click)="open(dialog)">Add Place</button>
+        </nb-card-body>
+      </nb-card>
+      <ag-grid-angular style="width: 100%; height: 480px;" class="ag-theme-balham shadow" [rowData]="placesData"
+        [columnDefs]="columnDefs" rowSelection="single" (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #dialog let-data let-ref="dialogRef" class="w-50">
+  <form [formGroup]="placeForm" (ngSubmit)="addPlace(placeForm.value); ref.close()">
+    <nb-card>
+      <nb-card-header>Add a popular place
+      </nb-card-header>
+      <nb-card-body>
+        <div class="text-left mb-2">
+          <p class="lead mb-1 pb-1">Fill the form below to add a new popular place. </p>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="text" formControlName="Name" nbInput fullWidth class="my-1" placeholder="Event/Place Name"
+              #PlaceName>
+            <ngx-place-picker (locationChanged)="this.logLocationChange($event)" [enablePlacesSearch]="true"
+              [enableCurrentLocation]="true">
+            </ngx-place-picker>            
+          </div>
+          <div class="col-md-6">
+            <nb-select formControlName="Area" class="my-1" fullWidth #Area placeholder="Select Area">
+              <nb-option *ngFor="let area of areas" value={{area}}>{{area}} </nb-option>
+            </nb-select>
+            <nb-progress-bar class="my-1"  [value]="(uploadProgress | async)" status="primary"></nb-progress-bar>
+            <div class="result my-1" *ngIf="downloadURL | async; let uploadSrc">
+              <a [href]="uploadSrc" target="_blank">View uploaded file!</a>
+            </div>
+            <input type="file" (change)="upload($event)" accept=".jpg" nbInput fullWidth maxFileSize="500000" />
+            <input type="text" formControlName="description" nbInput fullWidth class="my-1"
+              placeholder="Event description" #description>
+            <input type="number" formControlName="entranceFee" nbInput fullWidth class="my-1" placeholder="Entrance Fee"
+              #entranceFee>
+              <input type="number" formControlName="rating" nbInput fullWidth class="my-1" placeholder="Rating"
+              #rating>
+            <input type="url" formControlName="ticketUrl" nbInput fullWidth class="my-1" placeholder="Ticket Link"
+              #ticketUrl>
+          </div>
+        </div>
+      </nb-card-body>
+      <nb-card-footer class="py-2">
+        <button nbButton type="submit" status="success" class="float-left" size="small" *ngIf="placeForm.valid && uploaded">Add
+          Place
+        </button>
+        <button nbButton status="danger" size="small" class="float-right" (click)="ref.close()">Cancel</button>
+      </nb-card-footer>
+
+    </nb-card>
+  </form>
+</ng-template>

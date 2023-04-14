@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-md-2">
+        <app-sidenav></app-sidenav>
+    </div>
+    <div class="col-md-10">
+        <div class="container">
+            <nb-card>
+                <nb-card-body>
+                    Click on a driver to view Comments
+                </nb-card-body>
+            </nb-card>
+            <div class="row">
+                <div class="col-md-3">
+                    <nb-card *ngFor="let driver of drivers" class="text-center"
+                        (click)="loadDriverComments(driver.id, driver.FirstName)">
+                        <nb-card-header>
+                            <img [src]=driver.PicturePath alt="PicturePath">
+                        </nb-card-header>
+                        <nb-card-body>
+                            <div class="div">
+                                {{driver.FirstName}} {{driver.SecondName}}
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+                <div class="col-md-9">
+                    <nb-card *ngIf="clicked" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large"
+                        nbSpinnerMessage="">
+                        <nb-card-header>
+                            Comments for {{currentDriver}}
+                        </nb-card-header>
+                        <nb-card-body>
+                            <div class="row">
+                                <div class="col-3" *ngFor="let comment of comments">
+                                    <nb-card accent="success">
+                                        <nb-card-body>
+                                            {{comment.Comment}}
+                                        </nb-card-body>
+                                    </nb-card>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                    <nb-card *ngIf="!clicked">
+                        <nb-card-header>
+                            No Driver Selected yet
+                        </nb-card-header>
+                        <nb-card-body>
+                            Select on a driver to continue...
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

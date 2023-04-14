@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,43 +10,33 @@ import { Observable } from 'rxjs';
 export class BusinessService {
   url: string = "https://guarded-cove-99617.herokuapp.com/"
   // https://guarded-cove-99617.herokuapp.com/
+  private itemsCollection: AngularFirestoreCollection<any>;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private afs: AngularFirestore) { }
 
-  getCategories(): Observable<any[]> {
-    return this.httpClient.get<any[]>(this.url + 'categories');
+
+  testData(): Observable<any[]> {
+    this.itemsCollection = this.afs.collection<any>('data');
+    // return this.itemsCollection.valueChanges();
+    return this.itemsCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
   }
 
-  createCategory(category: any): Observable<string> {
-    return this.httpClient.post<string>(this.url + 'categories', category);
+  countTotalTrips() {
+
   }
 
-  getBusinessDetails(id: string) {
-    return this.httpClient.get<string>(this.url + 'business/'+ id);
-  }
 
-  createBusiness(business: any): Observable<string> {
-    return this.httpClient.post<string>(this.url, business);
-  }
-
-  listBusinesses(): Observable<any[]> {
-    return this.httpClient.get<any[]>(this.url);
-  }
-
-  listUnverifiedBusiness():Observable<any[]>{
-    return this.httpClient.get<any[]>(this.url+ 'unverified')
-  }
-
-  count(): Observable<any[]> {
-    return this.httpClient.get<any[]>(this.url + 'count');
-  }
-
-  unapproveBusiness(id: string) {
-    return this.httpClient.post<string>(this.url + 'unapp',  {id});
-  }
-
-  approveBusiness(id: string) {
-    return this.httpClient.post<string>(this.url + 'app',{id});
-  }
-
+  // this.items = this.itemsCollection.valueChanges();
+  // db.collection("cities").doc("SF")
+  // .onSnapshot(function(doc) {
+  //     // console.log("Current data: ", doc.data());
+  // });
 }

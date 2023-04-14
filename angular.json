@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "nakuruWeb": {
+    "drivrDash": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/nakuruWeb",
+            "outputPath": "dist/drivrDash",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -30,7 +30,7 @@
                 "glob": "**/*.js",
                 "input": "node_modules/@webcomponents/webcomponentsjs",
                 "output": "webcomponents/"
-                }
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -59,6 +59,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "es5BrowserSupport": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -77,18 +78,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "nakuruWeb:build"
+            "browserTarget": "drivrDash:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "nakuruWeb:build:production"
+              "browserTarget": "drivrDash:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "nakuruWeb:build"
+            "browserTarget": "drivrDash:build"
           }
         },
         "test": {
@@ -125,15 +126,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "nakuruWeb:serve"
+            "devServerTarget": "drivrDash:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "nakuruWeb:serve:production"
+              "devServerTarget": "drivrDash:serve:production"
             }
           }
         }
       }
-    }},
-  "defaultProject": "nakuruWeb"
+    }
+  },
+  "defaultProject": "drivrDash",
+  "cli": {
+    "analytics": "2f59b020-ab7a-4d86-b25d-086f8696829b"
+  }
 }

@@ -1,77 +1,52 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  url = "https://guarded-cove-99617.herokuapp.com/users/";
+  private user: Observable<firebase.User>;
+  private userDetails: firebase.User = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private _firebaseAuth: AngularFireAuth, private router: Router) {
+    this.user = _firebaseAuth.authState;
+
+    this.user.subscribe(
+      (user) => {
+        if (user) {
+          this.userDetails = user;
+          localStorage.setItem("isLoggedIn", "true");
+        } else {
+          this.userDetails = null;
+        }
+      }
+    );
+  }
+
 
   login(email: string, password: string) {
-    return this.http
-      .post<any>(
-        this.url + "login",
-        {
-          email: email,
-          password: password
-        },
-        { observe: "response" }
-      )
-      .pipe(response => {
-        return response;
-      });
+    const credential = firebase.auth.EmailAuthProvider.credential(email, password);
+    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password)
   }
 
-  forgot(email: string) {
-    return this.http
-      .post<any>(
-        this.url + "forgot",
-        {
-          email: email
-        },
-        { observe: "response" }
-      )
-      .pipe(response => {
-        return response;
-      });
+
+  isLoggedIn() {
+    this.user = this._firebaseAuth.authState;
+
+    if (localStorage.getItem("isLoggedIn") == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  resetPassword(password: string, newPassword: string, resetToken: string) {
-    return this.http
-      .post<any>(
-        this.url + "resetPassword",
-        {
-          password: password,
-          newPassword: newPassword,
-          resetToken: resetToken
-        },
-        { observe: "response" }
-      )
-      .pipe(response => {
-        return response;
-      });
-  }
-
-  deleteAccount() {
-
-    return this.http
-      .post<any>(
-        this.url + "delete",
-        {
-          deleteToken: localStorage.getItem("token")
-        },
-        { observe: "response" }
-      )
-      .pipe(response => {
-        return response;
-      });
-  }
-
+  /* Sign out */
   logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("token");
+    localStorage.clear();
+    this._firebaseAuth.auth.signOut()
+      .then((res) => this.router.navigate(['/']));
   }
 }

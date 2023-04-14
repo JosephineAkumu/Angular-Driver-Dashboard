@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-2">
+        <app-sidenav></app-sidenav>
+    </div>
+    <div class="col-md-10">
+        <div class="container">
+            <nb-card>
+                <nb-card-body>
+                    Click on a driver to view and modify balance
+                </nb-card-body>
+            </nb-card>
+            <div class="row">
+                <div [ngClass]="{'col-md-3': clicked, 'col-md-12':!clicked }">
+                    <div class="row">
+                        <nb-card *ngFor="let driver of drivers"
+                            [ngClass]="{'col-md-3 m-1': !clicked, 'col-md-12 m-1':clicked }"
+                            (click)="loadDriverBalance(driver.id, driver.FirstName)">
+                            <nb-card-header>
+                                <img [src]=driver.PicturePath alt="PicturePath">
+                            </nb-card-header>
+                            <nb-card-body>
+                                <div class="div">
+                                    {{driver.FirstName}} {{driver.SecondName}}
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </div>
+                </div>
+                <div class="col-md-9" *ngIf="clicked">
+                    <nb-card [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large" nbSpinnerMessage="">
+                        <nb-card-header>
+                            Account Balance for {{currentDriver}}
+                        </nb-card-header>
+                        <nb-card-body>
+                            <p>Balance <span class="float-right font-weight-bold"> {{balance.Balance}}</span>
+                            </p>
+                            <button nbButton status="primary" class="float-right">Update</button>
+                        </nb-card-body>
+                    </nb-card>
+                    <nb-card *ngIf="!clicked">
+                        <nb-card-header>
+                            No Driver Selected yet
+                        </nb-card-header>
+                        <nb-card-body>
+                            Select on a driver to continue...
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

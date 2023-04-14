@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-2">
+        <app-sidenav></app-sidenav>
+    </div>
+    <div class="col-md-10">
+        <div class="container">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col" *ngFor="let fareType of fareTypes">
+                        <nb-card accent="primary">
+                            <nb-card-header>
+                                {{fareType.id}}
+                                <nb-card-body class="pt-2">
+                                    <p class="lead">Amount: <span class="float-right">Kes{{fareType.Amount}}</span> </p>
+                                    <p class="lead">Commission: <span class="float-right">Kes{{fareType.Commission}} </span></p>
+                                    <p class="lead">Minimum: <span class="float-right">Kes{{fareType.Minimum}} </span></p>
+                                    <p class="lead">Time: <span class="float-right">Kes{{fareType.Time}} </span></p>
+                                    <p class="lead">Starting: <span class="float-right">Kes{{fareType.Starting}} </span></p>
+                                </nb-card-body>
+                            </nb-card-header>
+                            <nb-card-footer>
+                                <button nbButton size="small" fullWidth status="primary"
+                                    (click)="listFareType(fareType.id, acceptance)">View/Modify</button>
+                            </nb-card-footer>
+                        </nb-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #acceptance let-data let-ref="dialogRef">
+    <nb-card *ngIf="title && data.Amount">
+        <nb-card-header>{{title}}</nb-card-header>
+        <nb-card-body>
+            <p class="lead">Amount: {{data.Amount}} </p>
+            <p class="lead">Commission: {{data.Commission}} </p>
+            <p class="lead">Minimum: {{data.Minimum}} </p>
+            <p class="lead">Time: {{data.Time}} </p>
+            <p class="lead">Starting: {{data.Starting}} </p>
+        </nb-card-body>
+        <nb-card-footer>
+            <button nbButton status="success" (click)="modify(title, data.id, data.UserStatus); ref.close()"
+                class="mr-2">Modify</button>
+            <button nbButton status="danger" (click)="ref.close()" class="float-right">CLose</button>
+        </nb-card-footer>
+    </nb-card>
+    <nb-card *ngIf="!data.Amount" class="py-4 px-3">
+        Loading Data.. Please wait.
+    </nb-card>
+</ng-template>

@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit, OnChanges{
   logout() {
     this.authService.logout();
     this.router.navigate(["/auth/login"]);
+    localStorage.setItem("loggedOut", "true");
   }
 
 }

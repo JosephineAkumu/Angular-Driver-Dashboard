@@ -12,12 +12,15 @@ import {
   NbCheckboxModule,
   NbInputModule,
   NbToastrModule,
+  NbSpinnerModule,
 } from '@nebular/theme';
+import { LogoutComponent } from './logout/logout.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ import {
     NbCheckboxModule,
     NbInputModule,
     NbAuthModule,
+    NbSpinnerModule,
     NbToastrModule.forRoot(),
   ]
 })

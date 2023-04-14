@@ -1,10 +1,7 @@
-<div class="row">
-    <div class="col-md-6">
-        <img class="col-fingerprint" src="https://cdn.dribbble.com/users/103909/screenshots/4997797/g2i-preview-01.png" alt="fingerprint">
-    </div>
-    <div class="col-md-6">
+<div class="row justify-content-center">
+    <div class="col-md-8">
         <h1 id="title" class="title">Login</h1>
-        <p class="sub-title">Hello! Log in to manage your portfolio.</p>
+        <p class="sub-title">Hello! Log In</p>
 
         <nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
             <p class="alert-title"><b>Oh snap!</b></p>
@@ -21,7 +18,6 @@
         </nb-alert>
 
         <form (ngSubmit)="loginUser(form.value)" #form="ngForm" aria-labelledby="title">
-
             <div class="form-control-group mb-2">
                 <label class="label" for="input-email">Email address:</label>
                 <input nbInput fullWidth [(ngModel)]="user.email" #email="ngModel" name="email" id="input-email"
@@ -67,7 +63,7 @@
                 <a class="forgot-password" routerLink="../request-password">Forgot Password?</a>
             </div>
 
-            <button nbButton fullWidth status="success" [disabled]="submitted || !form.valid"
+            <button nbButton fullWidth [nbSpinner]="loading" nbSpinnerStatus="success" status="success" [disabled]="submitted || !form.valid"
                 [class.btn-pulse]="submitted">
                 Log In
             </button>

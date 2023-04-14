@@ -1,15 +1,7 @@
 <div class="navbar" *ngIf="!userIsLoggedIn">
     <ul class="nav mr-auto">
         <li class="nav-item active text-uppercase">
-            <a class="nav-link subtitle" href="/">Nakuru</a>
-        </li>
-    </ul>
-    <ul class="nav justify-content-end ml-auto">
-        <li class="nav-item mr-2" [routerLink]="['/business']" routerLinkActive="active">
-            <button class="nav-link" nbButton status="success" size="small" shape="round">Create Portfolio</button>
-        </li>
-        <li class="nav-item mr-2" [routerLink]="['/auth/login']">
-            <button class="nav-link" nbButton status="success" size="small" shape="round">Login</button>
+            <a class="nav-link subtitle" href="/">Dashboard</a>
         </li>
     </ul>
 </div>
@@ -17,13 +9,13 @@
 <div class="navbar" *ngIf="userIsLoggedIn">
     <ul class="nav mr-auto">
         <li class="nav-item active text-uppercase">
-            <a class="nav-link subtitle" href="/">Nakuru</a>
+            <a class="nav-link subtitle" href="/">Dashboard</a>
         </li>
     </ul>
     <ul class="nav justify-content-end ml-auto">
-        <li class="nav-item mr-2" [routerLink]="['/business']" routerLinkActive="active">
+        <!-- <li class="nav-item mr-2" [routerLink]="['/business']" routerLinkActive="active">
             <button class="nav-link" nbButton status="success" size="small" shape="round">Create Portfolio</button>
-        </li>
+        </li> -->
         <li class="nav-item mr-2" [routerLink]="['/auth/login']">
             <button class="nav-link" nbButton status="warning" size="small" shape="round">Logout</button>
         </li>

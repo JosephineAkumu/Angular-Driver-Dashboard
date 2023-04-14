@@ -37,40 +37,26 @@ export class LoginComponent extends NbLoginComponent implements OnInit {
       email: new FormControl('email', Validators.email),
       password: new FormControl()
     });
+
   }
 
   loginUser(data: any, ) {
-    console.log("data:", data);
     this.loading = true;
-    this.authService
-      .login(data.email, data.password)
-      .subscribe(
-        (data: HttpResponse<any>) => {
-          if (typeof (data) !== "undefined") {
-            this.currentUser = data.body;
-            localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+    this.currentUser = { email: data.email, password: data.password };
+    this.authService.login(data.email, data.password)
+      .then((res) => {
 
-            this.router.navigate(["admin"]);
-          }
-          //@ts-ignore
-          this.toastr.success("Login Successful", "Success", { position: "top-right" });
-          // localStorage
-          this.loading = false;
-        },
-        error => {
-          this.loading = false;
-          this.error = error.error;
+        this.router.navigate(['/admin']);
+        this.loading = false
+      })
+      .catch((err) => {
+        this.toastr.danger("Unable to login", "Error");
+        this.loading = false
+      });
 
-          if (typeof (this.error) == "object") {
-            this.error = "Service Unavailable, Please Try again after some time"
-          }
+    //@ts-ignore    
+    this.router.navigate(["/"]);
 
-          // this.toastr.error(this.error);
-          //@ts-ignore
-          this.toastr.danger(this.error, "Error", { position: "top-right" });
-
-        }
-      );
   }
 
 }

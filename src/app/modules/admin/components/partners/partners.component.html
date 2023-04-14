@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-md-2">
+    <app-sidenav></app-sidenav>
+  </div>
+  <div class="col-md-10">
+    <div class="container">
+      <nb-card class="">
+        <h6 class="display-4 p-3">{{pageContent}} Partners</h6>
+      </nb-card>
+      <ag-grid-angular style="width: 100%; height: 480px;" class="ag-theme-balham shadow" [rowData]="partnersData"
+        [columnDefs]="columnDefs" rowSelection="single" (click)="displayAlert(acceptance, $event)"
+        (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
+
+<ng-template #acceptance let-data let-ref="dialogRef">
+  <nb-card *ngIf="data.status">
+    <nb-card-header>{{data.name}}</nb-card-header>
+    <nb-card-body>
+      <p> Are you sure you want to
+        <span *ngIf="data.status =='Accepted'">Block</span>
+        <span *ngIf="data.status =='Blocked'">Unblock</span>
+        <span *ngIf="data.status =='Pending'">Accept</span>
+        <p> Name: {{data.name}}</p>
+        <p> Mobile number: {{ data.phone }}</p>
+        <p> Email: {{ data.email }}</p>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="success" (click)="processData(data.id, data.status); ref.close()" class="mr-2">Yes,
+        proceed</button>
+      <button nbButton status="danger" (click)="ref.close()" class="float-right">Cancel</button>
+    </nb-card-footer>
+  </nb-card>
+  <nb-card *ngIf="!data.status" class="py-4 px-3">
+    The Profile is not Complete or is missing some fields!
+  </nb-card>
+</ng-template>
